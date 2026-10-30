@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inhalte | Onboarding</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h1>Onboarding</h1>
+      <nav class="navigation" aria-label="Hauptnavigation">
+        <a class="nav-button" href="user-dashboard.html">Übersicht</a>
+        <a class="nav-button active" href="user-contents.html">Inhalte</a>
+      </nav>
+      <button class="logout-button" id="logout-button" type="button">Abmelden</button>
+    </aside>
+    <main class="main-content">
+      <section id="contents-content" class="contents-content">
+        <header class="contents-header">
+          <h2>Inhalte</h2>
+          <p id="content-progress">Inhalte werden geladen...</p>
+        </header>
+        <div class="content-controls">
+          <label class="search-label" for="content-search">Inhalte suchen...</label>
+          <input id="content-search" class="content-search" type="search" placeholder="Inhalte suchen...">
+          <div class="category-filters" aria-label="Kategorien">
+            <button class="category-filter active" data-category="Alle" type="button">Alle</button>
+            <button class="category-filter" data-category="HR" type="button">HR</button>
+            <button class="category-filter" data-category="IT" type="button">IT</button>
+            <button class="category-filter" data-category="Workplace" type="button">Workplace</button>
+            <button class="category-filter" data-category="Security" type="button">Security</button>
+          </div>
+        </div>
+        <p id="content-error" class="content-error" role="alert"></p>
+        <div id="content-items" class="content-items"></div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/user-contents.js"></script>
+</body>
+</html>
