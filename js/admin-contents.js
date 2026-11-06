@@ -1,4 +1,4 @@
-import { API_BASE, requireAdmin, logout } from "./common.js";
+import { API_BASE, requireAdmin, logout, escapeHtml } from "./common.js";
 
 if (requireAdmin()) {
   document.getElementById("logout-button").addEventListener("click", logout);
@@ -35,9 +35,6 @@ async function loadContentList(successMessage = "") {
     renderContentList(contents);
   } catch (error) {
     list.textContent = "Inhalte konnten nicht geladen werden.";
-    message.textContent = successMessage
-      ? `${successMessage} Das Backend stellt aktuell keine globale Inhaltsliste bereit.`
-      : "Das Backend stellt aktuell keine globale Inhaltsliste bereit (GET /api/content).";
   }
 }
 
@@ -205,13 +202,4 @@ async function deactivateContent(contentId) {
     document.getElementById("content-message").textContent =
       "Inhalt konnte nicht deaktiviert werden.";
   }
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }

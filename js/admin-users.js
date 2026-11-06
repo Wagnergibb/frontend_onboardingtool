@@ -1,4 +1,4 @@
-import { API_BASE, requireAdmin, logout } from "./common.js";
+import { API_BASE, requireAdmin, logout, escapeHtml } from "./common.js";
 
 if (requireAdmin()) {
   document.getElementById("logout-button").addEventListener("click", logout);
@@ -131,13 +131,4 @@ async function createUser(event) {
     submitButton.disabled = false;
     submitButton.textContent = "Speichern";
   }
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }

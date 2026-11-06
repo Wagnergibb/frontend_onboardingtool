@@ -1,4 +1,4 @@
-import { API_BASE, requireUser, logout } from "./common.js";
+import { API_BASE, requireUser, logout, escapeHtml } from "./common.js";
 
 if (requireUser()) {
   document.getElementById("logout-button").addEventListener("click", logout);
@@ -39,6 +39,7 @@ function renderDashboard(dashboard) {
   };
   const tags = document.getElementById("dashboard-role-tags");
   const nextContent = dashboard.nextContent;
+  const percentage = Math.min(100, Math.round(dashboard.progressPercentage));
 
   document.getElementById("dashboard-title").textContent =
     `Willkommen, ${dashboard.firstName}`;
@@ -47,9 +48,9 @@ function renderDashboard(dashboard) {
   document.getElementById("dashboard-completed").textContent =
     `${dashboard.completed} von ${dashboard.totalRelevant} erledigt`;
   document.getElementById("dashboard-progress-percentage").textContent =
-    `${dashboard.progressPercentage} %`;
+    `${percentage} %`;
   document.getElementById("dashboard-progress-bar").style.width =
-    `${dashboard.progressPercentage}%`;
+    `${percentage}%`;
   document.getElementById("dashboard-buddy").textContent =
     dashboard.buddy || "-";
   document.getElementById("dashboard-status").textContent =
@@ -74,19 +75,6 @@ function renderDashboard(dashboard) {
   document
     .getElementById("next-content-button")
     .addEventListener("click", () => {
-      if (nextContent.type === "PDF") {
-        console.log("Open PDF", nextContent.id);
-      } else if (nextContent.type === "LINK") {
-        window.open(`${API_BASE}/content/${nextContent.id}/resource`, "_blank");
-      }
+      window.open(`${API_BASE}/content/${nextContent.id}/resource`, "_blank");
     });
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
