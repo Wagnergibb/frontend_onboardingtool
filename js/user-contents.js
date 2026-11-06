@@ -1,4 +1,4 @@
-import { API_BASE, requireUser, logout } from "./common.js";
+import { API_BASE, requireUser, logout, escapeHtml } from "./common.js";
 
 let contentItems = [];
 let selectedCategory = "Alle";
@@ -88,7 +88,11 @@ function renderContentItems() {
   }
 
   if (visibleItems.length === 0) {
-    contentList.innerHTML = "<p>Keine passenden Inhalte gefunden.</p>";
+    contentList.innerHTML = `
+      <p>Keine passenden Inhalte gefunden. Suche oder Filter zurücksetzen.</p>
+      <button id="reset-filters" class="secondary-button" type="button">Zurücksetzen</button>
+    `;
+    document.getElementById("reset-filters").addEventListener("click", resetFilters);
     return;
   }
 
@@ -128,6 +132,16 @@ function renderContentItems() {
   });
 }
 
+function resetFilters() {
+  contentSearch = "";
+  selectedCategory = "Alle";
+  document.getElementById("content-search").value = "";
+  document.querySelectorAll(".category-filter").forEach((item) => {
+    item.classList.toggle("active", item.dataset.category === "Alle");
+  });
+  renderContentItems();
+}
+
 async function updateCompletion(checkbox) {
   const contentId = checkbox.dataset.contentId;
   const item = contentItems.find(
@@ -164,13 +178,4 @@ async function updateCompletion(checkbox) {
     checkbox.disabled = false;
     errorMessage.textContent = "Inhalt konnte nicht aktualisiert werden.";
   }
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }

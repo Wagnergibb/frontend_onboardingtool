@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     errorMessage.textContent = "";
     button.disabled = true;
-    button.textContent = "Logging in...";
+    button.textContent = "Wird angemeldet...";
 
     try {
       const response = await fetch(`${API_BASE}/auth/login`, {
@@ -40,12 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.status === 401) {
-        errorMessage.textContent = "Username or password is incorrect.";
+        errorMessage.textContent = "Benutzername oder Passwort ist falsch.";
         return;
       }
 
       if (!response.ok) {
-        errorMessage.textContent = "Backend is not available.";
+        const detail = await response.text();
+        errorMessage.textContent = detail.includes("No onboarding case")
+          ? "Für diesen Benutzer ist kein Onboarding erfasst."
+          : "Anmeldung fehlgeschlagen. Bitte später erneut versuchen.";
         return;
       }
 
@@ -54,10 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href =
         user.role === "ADMIN" ? "admin-users.html" : "user-dashboard.html";
     } catch (error) {
-      errorMessage.textContent = "Backend is not available.";
+      errorMessage.textContent = "Backend ist nicht erreichbar.";
     } finally {
       button.disabled = false;
-      button.textContent = "Login";
+      button.textContent = "Anmelden";
     }
   });
 });

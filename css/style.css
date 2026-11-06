@@ -418,6 +418,16 @@ body {
   padding: 6px 10px;
 }
 
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#pdf-keep-hint {
+  color: #5e6c84;
+}
+
 .contents-content {
   padding: 4px;
 }
